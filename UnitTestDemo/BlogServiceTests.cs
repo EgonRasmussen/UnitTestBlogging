@@ -1,3 +1,5 @@
+// Denne branch demonstrer Unit Test af ServiceLayer, eftersom databasen er InMemory og derfor
+//      ikke fungerer helt som en "rigtig" SQL server.
 // Projekt af typen MSTest
 // Tilføj NuGet pakken: Microsoft.EntityFrameworkCore.InMemory til projektet med Contexten
 // Husk forhindre contexten i at benytte SQL server konfigurationen.
