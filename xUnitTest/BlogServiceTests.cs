@@ -1,25 +1,16 @@
-// Denne branch demonstrer Unit Test af ServiceLayer, eftersom databasen er InMemory og derfor
-//      ikke fungerer helt som en "rigtig" SQL server.
-// Projekt af typen MSTest
-// Tilføj NuGet pakken: Microsoft.EntityFrameworkCore.InMemory til projektet med Contexten
-// Husk forhindre contexten i at benytte SQL server konfigurationen.
-
-// Microsoft Docs: https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting?view=mstest-net-1.2.0
-// Fin blog om MSTest: https://www.meziantou.net/2018/01/22/mstest-v2-setup-a-test-project-and-run-tests
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using DataLayer;
-using ServiceLayer;
+using Microsoft.EntityFrameworkCore;
 using QueryingData.Models;
+using ServiceLayer;
+using System;
+using System.Linq;
+using Xunit;
 
-namespace UnitTestDemo
+namespace xUnitTest
 {
-    [TestClass]
     public class BlogServiceTests
     {
-        [TestMethod]
+        [Fact]
         public void Add_writes_to_database()
         {
             // ARRANGE: Create option object with InMemoryDatabase
@@ -37,12 +28,12 @@ namespace UnitTestDemo
             // ASSERT: Use a separate instance of the context to verify correct data was saved to database
             using (var context = new BloggingContext(options))
             {
-                Assert.AreEqual(1, context.Blogs.Count());
-                Assert.AreEqual("http://sample.com", context.Blogs.Single().Url);
+                Assert.Equal(1, context.Blogs.Count());
+                Assert.Equal("http://sample.com", context.Blogs.Single().Url);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Find_searches_url()
         {
             var options = new DbContextOptionsBuilder<BloggingContext>()
@@ -63,7 +54,7 @@ namespace UnitTestDemo
             {
                 var service = new BlogService(context);
                 var result = service.Find("cat");
-                Assert.AreEqual(2, result.Count());
+                Assert.Equal(2, result.Count());
             }
         }
     }
